@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Database-Customers</title>
+        <!-- style for the navigation bar-->
+        <link rel="stylesheet" href="default.css" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <h1> Manage Customers Data</h1>
+        <div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="customers.html">Customers</a></li>
+                <li><a href="vinyls.html">Vinyls</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="coupons.html">Coupons</a></li>
+                <li><a href="order-products.html">OrderProducts</a></li>
+            </ul>
+        </div>
+
+        <!--
+        Citation for user input form:
+        Date: 10/25/2021
+        Adapted from: w3schools
+        Source URL: https://www.w3schools.com/tags/tag_form.asp
+        -->
+
+        <form>
+        <fieldset>
+            <legend>Add New Customer</legend>
+            <p>
+            <label>First Name:
+                <input type="text" id="firstName" size="30" maxlength="100"></label>
+            </br>
+            <label>Last Name:
+                <input type="text" id="lastName" size="30" maxlength="100"></label>
+            </br>
+            <label>Street Address:
+                <input type="text" id="streetAddress" size="50" maxlength="100"></label>
+            </br>
+            <label>City:
+                <input type="text" id="city" size="30" maxlength="100"></label>
+            </br>
+            <label>State:
+                <input type="text" id="state" size="30" maxlength="100"></label>
+            </br>
+            <label>Zip Code:
+                <input type="text" id="zipCode" size="30" maxlength="100"></label>
+            </br>
+            <label>Phone Number:
+                <input type="tel" id="phoneNumber" placeholder="000-000-0000" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required></label>
+            </br>
+            <label>Email:
+                <input type="email" id="email"></label>
+            </br>
+            </p>
+            <input type="submit" id="add_customers" value="Add Customer">
+        </fieldset>
+        </form>
+
+
+    </body>
+</html>

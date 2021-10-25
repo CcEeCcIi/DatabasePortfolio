@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Database-Coupons</title>
+        <!-- style for the navigation bar-->
+        <link rel="stylesheet" href="default.css" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <h1> Manage OrderProducts Data</h1>
+        <div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="customers.html">Customers</a></li>
+                <li><a href="vinyls.html">Vinyls</a></li>
+                <li><a href="orders.html">Orders</a></li>
+                <li><a href="coupons.html">Coupons</a></li>
+                <li><a href="order-products.html">OrderProducts</a></li>
+            </ul>
+        </div>
+
+        <!--
+        Citation for user input form:
+        Date: 10/25/2021
+        Adapted from: w3schools
+        Source URL: https://www.w3schools.com/tags/tag_form.asp
+        -->
+
+        <form>
+        <fieldset>
+            <legend>Add New OrderProducts</legend>
+            <p>
+            <label>Order ID:
+                <input type="text" id="orderID" size="30" maxlength="100"></label>
+            </br>
+            <label>Product ID:
+                <input type="text" id="productID" size="30" maxlength="100"></label>
+            </br>
+            <label>Quantity:
+                <input type="number" id="quantity" min="0"></label>
+            </br>
+            </p>
+            <input type="submit" id="add_orderProducts" value="Add OrderProducts">
+        </fieldset>
+        </br>
+        <fieldset>
+            <legend>Delete an OrderProducts</legend>
+            <p>
+            <label>Order ID:
+                <input type="text" id="orderID" size="30" maxlength="100"></label>
+            </br>
+            <label>Product ID:
+                <input type="text" id="productID" size="30" maxlength="100"></label>
+            </br>
+            </p>
+            <input type="submit" id="delete" value="Delete">
+        </fieldset>
+        </form>
+    </body>
+</html>
