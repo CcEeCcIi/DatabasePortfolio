@@ -16,8 +16,28 @@
             <a href="/coupons">Coupons</a>
             <a class="active" href="/orderProducts">OrderProducts</a>     
         </div>
-        </br>
+        <br>
         <h1> Manage OrderProducts Data</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product ID</th>
+                <th>Product Quantity</th>
+            </tr>
+            <tbody>
+            
+            {% for row in order_prod_info %}
+            <tr>
+                <td>{{row['order_id']}}</td>
+                <td>{{row['product_id']}}</td>
+                <td>{{row['quantity']}}</td>
+            </tr>
+            {% endfor %}
+    
+        </table>
+        <br>
 
         <!--
         Citation for user input form:
@@ -32,26 +52,26 @@
             <p>
             <label>Order ID:
                 <input type="text" id="orderID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Product ID:
                 <input type="text" id="productID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Quantity:
                 <input type="number" id="quantity" min="0"></label>
-            </br>
+            <br>
             </p>
             <input type="submit" id="add_orderProducts" value="Add OrderProducts">
         </fieldset>
-        </br>
+        <br>
         <fieldset>
             <legend>Delete an OrderProducts</legend>
             <p>
             <label>Order ID:
                 <input type="text" id="orderID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Product ID:
                 <input type="text" id="productID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             </p>
             <input type="submit" id="delete" value="Delete">
         </fieldset>

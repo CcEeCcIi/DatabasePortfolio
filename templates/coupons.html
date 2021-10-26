@@ -16,8 +16,28 @@
             <a class="active" href="/coupons">Coupons</a>
             <a href="/orderProducts">OrderProducts</a>     
         </div>
-        </br>
+        <br>
         <h1> Manage Coupons Data</h1>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Coupon ID</th>
+                <th>Percent Discount</th>
+                <th>Expiration Date</th>
+            </tr>
+            <tbody>
+            
+            {% for row in coupon_info %}
+            <tr>
+                <td>{{row['coupon_id']}}</td>
+                <td>{{row['discount']}}</td>
+                <td>{{row['expire_date']}}</td>
+            </tr>
+            {% endfor %}
+    
+        </table>
+        <br>
 
         <!--
         Citation for user input form:
@@ -32,13 +52,13 @@
             <p>
             <label>Coupon ID:
                 <input type="text" id="couponID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Percent Discount:
                 <input type="number" id="percentDiscount" min="0"></label>
-            </br>
+            <br>
             <label>Expiration Date:
                 <input type="date" id="expirationDate"></label>
-            </br>
+            <br>
             </p>
             <input type="submit" id="add_coupons" value="Add Coupon">
         </fieldset>

@@ -8,16 +8,42 @@
     </head>
         
     <body>    
-            <div class="topnav">        
-                <a href="/">Home</a></li>
-                <a href="/customers">Customers</a>
-                <a class="active" href="/vinyls">Vinyls</a>
-                <a href="/orders">Orders</a>
-                <a href="/coupons">Coupons</a>
-                <a href="/orderProducts">OrderProducts</a>     
-            </div>
-        </br>
+        <div class="topnav">        
+            <a href="/">Home</a></li>
+            <a href="/customers">Customers</a>
+            <a class="active" href="/vinyls">Vinyls</a>
+            <a href="/orders">Orders</a>
+            <a href="/coupons">Coupons</a>
+            <a href="/orderProducts">OrderProducts</a>     
+        </div>
+        <br>
         <h1> Manage Vinyls Data</h1>
+        
+        <table>
+            <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Album Name</th>
+                <th>Artist Name</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Quantity Available</th>
+            </tr>
+            <tbody>
+            
+            {% for row in vinyl_info %}
+            <tr>
+                <td>{{row['product_id']}}</td>
+                <td>{{row['album']}}</td>
+                <td>{{row['artist']}}</td>
+                <td>{{row['genre']}}</td>
+                <td>{{row['price']}}</td>
+                <td>{{row['quantity_available']}}</td>
+            </tr>
+            {% endfor %}
+    
+        </table>
+        <br>
 
         <!--
         Citation for user input form:
@@ -32,19 +58,19 @@
             <p>
             <label>Album Name:
                 <input type="text" id="albumName" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Artist Name:
                 <input type="text" id="artistName" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Genre:
                 <input type="text" id="genre" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Price:
                 <input type="number" id="price" min="0" step="any"></label>
-            </br>
+            <br>
             <label>Quantity Available:
                 <input type="number" id="quantityAvailable" min="0"></label>
-            </br>
+            <br>
             </p>
             <input type="submit" id="add_vinyls" value="Add Vinyl">
         </fieldset>

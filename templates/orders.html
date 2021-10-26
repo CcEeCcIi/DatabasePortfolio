@@ -16,9 +16,32 @@
             <a href="/coupons">Coupons</a>
             <a href="/orderProducts">OrderProducts</a>     
         </div>
-        </br>
+        <br>
         <h1> Manage Orders Data</h1>
         
+        <table>
+            <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Order Date</th>
+                <th>Customer ID</th>
+                <th>Coupon ID</th>
+                <th>Order Status</th>
+            </tr>
+            <tbody>
+            
+            {% for row in order_info %}
+            <tr>
+                <td>{{row['order_id']}}</td>
+                <td>{{row['order_date']}}</td>
+                <td>{{row['customer_id']}}</td>
+                <td>{{row['coupon_id']}}</td>
+                <td>{{row['order_status']}}</td>
+            </tr>
+            {% endfor %}
+    
+        </table>
+        <br>
 
         <!--
         Citation for user input form:
@@ -33,13 +56,13 @@
             <p>
             <label>Order Date:
                 <input type="date" id="orderDate" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Customer ID:
                 <input type="text" id="customerID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Coupon ID:
                 <input type="text" id="couponID" size="30" maxlength="100"></label>
-            </br>
+            <br>
 
             <label>Order Status:
                 <select name="orderStatus" id="orderStatus">
@@ -49,30 +72,30 @@
                     <option value="delivered">Delivered</option>
                 </select>
                 <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
-            </br>
+            <br>
             </p>
             <input type="submit" id="add_orders" value="Add Order">
         </fieldset>
-        </br>
+        <br>
         <fieldset>
             <legend>Search Order Under A Customer</legend>
             <p>
             <label>First Name:
                 <input type="text" id="firstName" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Last Name:
                 <input type="text" id="lastName" size="30" maxlength="100"></label>
-            </br>
+            <br>
             </p>
             <input type="submit" id="search_orders" value="Search Order">
         </fieldset>
-        </br>
+        <br>
         <fieldset>
             <legend>Update An Order</legend>
             <p>
             <label>Order ID:
                 <input type="text" id="orderID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             <label>Order Status:
                 <select name="orderStatus" id="orderStatus">
                     <option value="any">Any</option>
@@ -81,10 +104,10 @@
                     <option value="delivered">Delivered</option>
                 </select>
                 <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
-            </br>
+            <br>
             <label>Coupon ID:
                 <input type="text" id="couponID" size="30" maxlength="100"></label>
-            </br>
+            <br>
             </p>
             <input type="submit" id="update_orders" value="Update Order">
         </fieldset>

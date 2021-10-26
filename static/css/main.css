@@ -2,6 +2,16 @@ body {
     font-family: 'Calibri', 'Cambria';
 }
 
+/* Why isn't this working? */
+input {
+    margin-bottom: 10px;
+}
+
+/* Why isn't this working? */
+table, th, td {
+    border: 1px solid black;
+}
+
 /* Add a black background color to the top navigation */
 .topnav {
     background-color: #333;
