@@ -4,22 +4,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Database-Vinylss</title>
          <!-- style for the navigation bar-->
-        <link rel="stylesheet" href="default.css" type="text/css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+         <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
     </head>
-    <body>
+        
+    <body>    
+            <div class="topnav">        
+                <a href="/">Home</a></li>
+                <a href="/customers">Customers</a>
+                <a class="active" href="/vinyls">Vinyls</a>
+                <a href="/orders">Orders</a>
+                <a href="/coupons">Coupons</a>
+                <a href="/orderProducts">OrderProducts</a>     
+            </div>
+        </br>
         <h1> Manage Vinyls Data</h1>
-        <div>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="customers.html">Customers</a></li>
-                <li><a href="vinyls.html">Vinyls</a></li>
-                <li><a href="orders.html">Orders</a></li>
-                <li><a href="coupons.html">Coupons</a></li>
-                <li><a href="order-products.html">OrderProducts</a></li>
-            </ul>
-        </div>
 
         <!--
         Citation for user input form:
@@ -30,7 +28,7 @@
         
         <form>
         <fieldset>
-            <legend>Add New Vinyle Record</legend>
+            <legend>Add New Vinyl Record</legend>
             <p>
             <label>Album Name:
                 <input type="text" id="albumName" size="30" maxlength="100"></label>
@@ -48,7 +46,7 @@
                 <input type="number" id="quantityAvailable" min="0"></label>
             </br>
             </p>
-            <input type="submit" id="add_vinyles" value="Add Vinyle">
+            <input type="submit" id="add_vinyls" value="Add Vinyl">
         </fieldset>
         </form>
     </body>

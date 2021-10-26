@@ -7,21 +7,40 @@ import database.db_connector as db
 
 app = Flask(__name__)
 
-db_connection = db.connect_to_database()
+#db_connection = db.connect_to_database()
 
 
 # Routes 
 
 @app.route('/')
 def root():
-    return render_template("main.j2")
+    """Serves the website home page"""
+    return render_template("index.html")
 
-@app.route('/bsg-people')
-def bsg_people():
-    query = "SELECT * FROM bsg_people"
-    cursor = db.execute_query(db_connection=db_connection, query=query)
-    results = cursor.fetchall()
-    return render_template("bsg.j2", bsg_people = results)
+@app.route('/customers')
+def customers():
+    """Serves the Customers page"""
+    return render_template("customers.html")
+
+@app.route('/orders')
+def orders():
+    """Serves the Orders page"""
+    return render_template("orders.html")
+
+@app.route('/vinyls')
+def vinyls():
+    """Serves the Vinyls page"""
+    return render_template("vinyls.html")
+
+@app.route('/orderProducts')
+def order_products():
+    """Serves the Order Products page"""
+    return render_template("order-products.html")
+
+@app.route('/coupons')
+def coupons():
+    """Serves the Coupons Products page"""
+    return render_template("coupons.html")
 
 
 # Listener
