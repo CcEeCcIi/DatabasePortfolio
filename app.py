@@ -70,7 +70,7 @@ def order_products():
 
 # Listener
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 9112)) 
+    port = int(os.environ.get('PORT', 8796)) 
     #                                 ^^^^
     #              You can replace this number with any valid port
     

@@ -48,6 +48,7 @@
             {% endfor %}
     
         </table>
+        <div>*Customer ID Filter: None</div>
         <br>
 
         <!--
@@ -84,16 +85,15 @@
         </fieldset>
         <br>
         <fieldset>
-            <legend>Search Order Under A Customer</legend>
+            <legend>Filter Orders for a Specific Customer</legend>
             <p>
-            <label>First Name:
-                <input type="text" id="firstName" size="30" maxlength="100"></label>
-            <br>
-            <label>Last Name:
-                <input type="text" id="lastName" size="30" maxlength="100"></label>
+            <label>Customer ID:
+                <input type="text" id="customerID" size="30" maxlength="100"></label>
             <br>
             </p>
-            <input type="submit" id="search_orders" value="Search Order">
+            <input type="submit" id="filter_orders" value="Filter Orders">
+            <br>
+            <input type="submit" id="clear_filter" value="Clear Filter">
         </fieldset>
         <br>
         <fieldset>
