@@ -25,6 +25,7 @@
         </div>
         <br>
         <h1> Manage Orders Data</h1>
+        <h3>*Please scroll down for more information.</h3>
         
         <table>
             <thead>
@@ -60,6 +61,18 @@
 
         <form>
         <fieldset>
+            <legend>Filter Orders for a Specific Customer</legend>
+            <p>
+            <label>Customer ID:
+                <input type="text" id="customerID" size="30" maxlength="100"></label>
+            <br>
+            </p>
+            <input type="submit" id="filter_orders" value="Filter Orders">
+            <br>
+            <input type="submit" id="clear_filter" value="Clear Filter">
+        </fieldset>
+        <br>
+        <fieldset>
             <legend>Add New Order</legend>
             <p>
             <label>Order Date:
@@ -83,17 +96,14 @@
             </p>
             <input type="submit" id="add_orders" value="Add Order">
         </fieldset>
-        <br>
         <fieldset>
-            <legend>Filter Orders for a Specific Customer</legend>
+            <legend>Delete An Order</legend>
             <p>
-            <label>Customer ID:
-                <input type="text" id="customerID" size="30" maxlength="100"></label>
+            <label>Order ID:
+                <input type="text" id="orderID" size="30" maxlength="100"></label>
             <br>
             </p>
-            <input type="submit" id="filter_orders" value="Filter Orders">
-            <br>
-            <input type="submit" id="clear_filter" value="Clear Filter">
+            <input type="submit" id="delete_orders" value="Delete Order">
         </fieldset>
         <br>
         <fieldset>
