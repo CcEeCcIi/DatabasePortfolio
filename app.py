@@ -23,8 +23,8 @@ def customers():
     """Serves the Customers page"""
 
     # Sample data to fill first two rows on table
-    customer_info = [{"customer_id": 45, "fname": "Billy", "lname": "Bob", "age": 45, "street_address": "123 Main St", "city": "Footown", "state": "OR", "zipcode": 87654, "phone": "444-323-2323", "email": "billybob@hello.com"},
-                     {"customer_id": 87, "fname": "Jane", "lname": "Doe", "age": 99, "street_address": "123 Foo St", "city": "Footown", "state": "OR", "zipcode": 87656, "phone": "444-123-1212", "email": "janedoe@hello.com"}]
+    customer_info = [{"customer_id": 45, "fname": "Billy", "lname": "Bob", "street_address": "123 Main St", "city": "Footown", "state": "OR", "zipcode": 87654, "phone": "444-323-2323", "email": "billybob@hello.com"},
+                     {"customer_id": 87, "fname": "Jane", "lname": "Doe", "street_address": "123 Foo St", "city": "Footown", "state": "OR", "zipcode": 87656, "phone": "444-123-1212", "email": "janedoe@hello.com"}]
 
     return render_template("customers.html", customer_info=customer_info)
 
