@@ -1,5 +1,9 @@
-from flask import Flask, render_template, json
+from flask import Flask, render_template, request
 import os
+from flask.helpers import url_for
+
+from flask.wrappers import Request
+from werkzeug.utils import redirect
 import database.db_connector as db
 
 
@@ -7,8 +11,8 @@ import database.db_connector as db
 
 app = Flask(__name__)
 
-# Commented this out to prevent errors since no database connected yet
-#db_connection = db.connect_to_database()
+# Connect to database when server is started
+db_connection = db.connect_to_database()
 
 
 # Routes 
@@ -18,15 +22,43 @@ def root():
     """Serves the website home page"""
     return render_template("index.html")
 
-@app.route('/customers')
+@app.route('/customers', methods=['GET', 'POST'])
 def customers():
     """Serves the Customers page"""
 
-    # Sample data to fill first two rows on table
-    customer_info = [{"customer_id": 45, "fname": "Billy", "lname": "Bob", "street_address": "123 Main St", "city": "Footown", "state": "OR", "zipcode": 87654, "phone": "444-323-2323", "email": "billybob@hello.com"},
-                     {"customer_id": 87, "fname": "Jane", "lname": "Doe", "street_address": "123 Foo St", "city": "Footown", "state": "OR", "zipcode": 87656, "phone": "444-123-1212", "email": "janedoe@hello.com"}]
+    # Handle GET requests by fetching all Customers data
+    if request.method == 'GET':
+        query = "SELECT * FROM `Customers`;"
+        customer_info = db.execute_query(db_connection, query).fetchall()
 
-    return render_template("customers.html", customer_info=customer_info)
+        return render_template("customers.html", customer_info=customer_info)
+
+    # Handle POST requests by inserting form data from front end
+    if request.method == 'POST':
+        first_name = request.form['firstName']
+        last_name = request.form['lastName']
+        street_address = request.form['streetAddress']
+        city = request.form['city']
+        state = request.form['state']
+        zip_code = request.form['zipCode']
+        phone = request.form['phoneNumber']
+        email = request.form['email']
+
+        # Handle case when no phone number is given to ensure phoneNumber will be NULL in database
+        if phone is None:
+            query = "INSERT INTO `Customers` (`firstName`, `lastName`, `streetAddress`, `city`, `state`, `zipCode`, `email`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
+            data = (first_name, last_name, street_address, city, state, zip_code, email)
+        else:
+            query = "INSERT INTO `Customers` (`firstName`, `lastName`, `streetAddress`, `city`, `state`, `zipCode`, `phoneNumber`, `email`) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"
+            data = (first_name, last_name, street_address, city, state, zip_code, phone, email)
+
+        # Execute query to insert data
+        db.execute_query(db_connection, query, data)
+        print("Customer successfully added.")
+
+        # Redirect to this webpage after form submission
+        return redirect(url_for('customers'))
+    
 
 @app.route('/vinyls')
 def vinyls():

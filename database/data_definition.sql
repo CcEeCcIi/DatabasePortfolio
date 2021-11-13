@@ -23,11 +23,11 @@ CREATE TABLE `Customers` (
 LOCK TABLES `Customers` WRITE;
 
 INSERT INTO `Customers` (`firstName`, `lastName`, `streetAddress`, `city`, `state`, `zipCode`, `phoneNumber`, `email`)
-    VALUES ("Amy", "McDonald", "Ap#1 Sodales Av.", "Tamuning", "PA", "10855", "(654) 393-5734", "abc@mail.com"), 
-            ("Kyla", "Olsen", "101 Integer Rd.", "Muskegon", "KY", "12482", "(314) 244-6306", "erg@mail.com"),
-            ("Davis", "Patrick", "P.O. Box 147 Sociosqu Rd.", "Bethlehem", "UT", "02913", "(939) 353-1107", "dvi@mail.com"),
-            ("Bryar ", "Pitts", "3 Aliquet St.", "Fort Dodge", "GA", "20783", "(717) 450-4729", "efb@mail.com"),
-            ("Rahim", "Henderson", "5370 Diam Rd.", "Daly City", "OH", "90255", "(453) 391-4650", "rah@mail.com");
+    VALUES ("Amy", "McDonald", "Ap#1 Sodales Av.", "Tamuning", "PA", "10855", "654-393-5734", "abc@mail.com"), 
+            ("Kyla", "Olsen", "101 Integer Rd.", "Muskegon", "KY", "12482", "314-244-6306", "erg@mail.com"),
+            ("Davis", "Patrick", "P.O. Box 147 Sociosqu Rd.", "Bethlehem", "UT", "02913", "939-353-1107", "dvi@mail.com"),
+            ("Bryar ", "Pitts", "3 Aliquet St.", "Fort Dodge", "GA", "20783", "717-450-4729", "efb@mail.com"),
+            ("Rahim", "Henderson", "5370 Diam Rd.", "Daly City", "OH", "90255", "453-391-4650", "rah@mail.com");
             
 UNLOCK TABLES;
 

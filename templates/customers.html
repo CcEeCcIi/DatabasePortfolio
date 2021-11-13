@@ -43,14 +43,14 @@
             
             {% for row in customer_info %}
             <tr>
-                <td>{{row['customer_id']}}</td>
-                <td>{{row['fname']}}</td>
-                <td>{{row['lname']}}</td>
-                <td>{{row['street_address']}}</td>
+                <td>{{row['customerID']}}</td>
+                <td>{{row['firstName']}}</td>
+                <td>{{row['lastName']}}</td>
+                <td>{{row['streetAddress']}}</td>
                 <td>{{row['city']}}</td>
                 <td>{{row['state']}}</td>
-                <td>{{row['zipcode']}}</td>
-                <td>{{row['phone']}}</td>
+                <td>{{row['zipCode']}}</td>
+                <td>{{row['phoneNumber']}}</td>
                 <td>{{row['email']}}</td>
             </tr>
             {% endfor %}
@@ -65,33 +65,33 @@
         Source URL: https://www.w3schools.com/tags/tag_form.asp
         -->
 
-        <form>
+        <form action="/customers" method="post">
             <fieldset>
                 <legend>Add New Customer</legend>
                 <p>
                     <label>First Name:</label>
-                        <input type="text" id="firstName" size="30" maxlength="100">
+                        <input type="text" name="firstName" size="30" maxlength="100" required>
                     <br>
                     <label>Last Name:
-                        <input type="text" id="lastName" size="30" maxlength="100"></label>
+                        <input type="text" name="lastName" size="30" maxlength="100" required></label>
                     <br>
                     <label>Street Address:
-                        <input type="text" id="streetAddress" size="50" maxlength="100"></label>
+                        <input type="text" name="streetAddress" size="50" maxlength="100" required></label>
                     <br>
                     <label>City:
-                        <input type="text" id="city" size="30" maxlength="100"></label>
+                        <input type="text" name="city" size="30" maxlength="100" required></label>
                     <br>
                     <label>State:
-                        <input type="text" id="state" size="30" maxlength="100"></label>
+                        <input type="text" name="state" size="30" maxlength="2" required></label>
                     <br>
                     <label>Zip Code:
-                        <input type="text" id="zipCode" size="30" maxlength="100"></label>
+                        <input type="text" name="zipCode" size="30" maxlength="5" required></label>
                     <br>
                     <label>Phone Number:
-                        <input type="tel" id="phoneNumber" placeholder="000-000-0000" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required></label>
+                        <input type="tel" name="phoneNumber" placeholder="000-000-0000" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" maxlength="12"></label>
                     <br>
                     <label>Email:
-                        <input type="email" id="email"></label>
+                        <input type="email" name="email" required></label>
                     <br>
                 </p>
                 <input type="submit" id="add_customers" value="Add Customer">
