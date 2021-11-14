@@ -69,6 +69,7 @@ def vinyls():
 
     return render_template("vinyls.html", vinyl_info=vinyl_info)
 
+
 @app.route('/orders', methods=['GET', 'POST'])
 def orders():
     """Serves the Orders page"""
@@ -132,6 +133,7 @@ def coupons():
                    {"coupon_id": "FOOTOWN_SPECIAL", "discount": 0.15, "expire_date": "2021-10-31"}]
 
     return render_template("coupons.html", coupon_info=coupon_info)
+
 
 @app.route('/orderProducts')
 def order_products():
