@@ -78,7 +78,7 @@ UNLOCK TABLES;
 /* Define the Orders table */
 CREATE TABLE `Orders` (
     `orderID` int AUTO_INCREMENT NOT NULL,
-    `orderDate` datetime NOT NULL,
+    `orderDate` DATE NOT NULL,
     `customerID` int NOT NULL,
     `couponID` VARCHAR(255),
     `orderStatus` VARCHAR(255) NOT NULL,
@@ -97,11 +97,11 @@ CREATE TABLE `Orders` (
 LOCK TABLES `Orders` WRITE;
 
 INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`)
-    VALUES ("2021-10-12 12:03:35", 1, "THANKYOU", "in process"),
-            ("2021-10-20 16:40:23", 4, NULL, "in process"),
-            ("2021-11-1 19:00:21", 2, NULL, "in process"),
-            ("2021-11-3 02:05:45", 3, "NEWYEAR", "in process"),
-            ("2021-11-5 10:54:01", 5, NULL, "in process");
+    VALUES ("2021-10-12", 1, "THANKYOU", "inProcess"),
+            ("2021-10-20", 4, NULL, "inProcess"),
+            ("2021-11-1", 2, NULL, "inProcess"),
+            ("2021-11-3", 3, "NEWYEAR", "inProcess"),
+            ("2021-11-5", 5, NULL, "inProcess");
             
 UNLOCK TABLES;            
 

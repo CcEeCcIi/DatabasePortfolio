@@ -45,7 +45,7 @@ def customers():
         email = request.form['email']
 
         # Handle case when no phone number is given to ensure phoneNumber will be NULL in database
-        if phone is None:
+        if phone == "":
             query = "INSERT INTO `Customers` (`firstName`, `lastName`, `streetAddress`, `city`, `state`, `zipCode`, `email`) VALUES (%s, %s, %s, %s, %s, %s, %s);"
             data = (first_name, last_name, street_address, city, state, zip_code, email)
         else:
@@ -54,9 +54,8 @@ def customers():
 
         # Execute query to insert data
         db.execute_query(db_connection, query, data)
-        print("Customer successfully added.")
 
-        # Redirect to this webpage after form submission
+        # Redirect to same webpage after form submission
         return redirect(url_for('customers'))
     
 
@@ -70,15 +69,59 @@ def vinyls():
 
     return render_template("vinyls.html", vinyl_info=vinyl_info)
 
-@app.route('/orders')
+@app.route('/orders', methods=['GET', 'POST'])
 def orders():
     """Serves the Orders page"""
 
-    # Sample data to fill first two rows on table
-    order_info = [{"order_id": 34, "order_date": "2021-10-21", "customer_id": 3, "coupon_id": "FALL_2021", "order_status": "in process"},
-                  {"order_id": 37, "order_date": "2021-10-18", "customer_id": 5, "coupon_id": "NULL", "order_status": "delivered"}]
+    # Handle GET requests by fetching all Orders data
+    if request.method == 'GET':
+        customer_filter = None  # customerID filter initialized to None
+        
+        # If there are no query parameters then select entire table
+        if len(request.args) == 0:
+            query_orders = "SELECT * FROM `Orders`;"
 
-    return render_template("orders.html", order_info=order_info)
+        # If 'Clear Filter' option is chosen, refresh page with no filters
+        elif request.args['customerID'] == "":
+            return redirect(url_for('orders'))
+
+        # Otherwise select table with customerID filters applied
+        else:
+            customer_filter = request.args['customerID']
+            query_orders = "SELECT * FROM `Orders` WHERE customerID = " + customer_filter + ";"
+
+        order_info = db.execute_query(db_connection, query_orders).fetchall()
+
+        # Fetch all customerID's for drop down menu
+        query_customers = "SELECT `customerID`, `firstName`, `lastName` FROM `Customers`;"
+        customer_names = db.execute_query(db_connection, query_customers)
+
+        # Fetch all couponID's for drop down menu
+        query_coupons = "SELECT `couponID` FROM `Coupons`;"
+        coupon_info = db.execute_query(db_connection, query_coupons)
+
+        return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, filter=customer_filter)
+    
+    if request.method == 'POST':
+        order_date = request.form['orderDate']
+        customer_id = request.form['customerID']
+        coupon_id = request.form['couponID']
+        order_status = request.form['orderStatus']
+
+        # Handle case when no couponID is given
+        if coupon_id == "":
+            query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, NULL, %s);"
+            data = (order_date, customer_id, order_status)
+        else:
+            query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, %s, %s);"
+            data = (order_date, customer_id, coupon_id, order_status)
+
+        # Execute query to insert data
+        db.execute_query(db_connection, query, data)
+
+        # Redirect to same webpage after form submission
+        return redirect(url_for('orders'))
+    
 
 @app.route('/coupons')
 def coupons():
