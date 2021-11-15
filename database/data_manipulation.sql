@@ -15,6 +15,12 @@ SELECT * FROM `Coupons`;
 -- get all OrderProducts and their information for the OrderProducts page
 SELECT * FROM `OrderProducts`;
 
+-- get all customerIDs and names for the drop down menu on the Orders page
+SELECT `customerID`, `firstName`, `lastName` FROM `Customers`;
+
+-- get all couponIDs for the drop down menu on the Orders page
+SELECT `couponID` FROM `Coupons`;
+
 -- add a new customer
 INSERT INTO `Customers` (`firstName`, `lastName`, `streetAddress`, `city`, `state`, `zipCode`, `phoneNumber`, `email`)
     VALUES (:firstName, :lastName, :streetAddress, :city, :state, :zipCode, :phoneNumber, :email);

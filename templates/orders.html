@@ -40,16 +40,16 @@
             
             {% for row in order_info %}
             <tr>
-                <td>{{row['order_id']}}</td>
-                <td>{{row['order_date']}}</td>
-                <td>{{row['customer_id']}}</td>
-                <td>{{row['coupon_id']}}</td>
-                <td>{{row['order_status']}}</td>
+                <td>{{row['orderID']}}</td>
+                <td>{{row['orderDate']}}</td>
+                <td>{{row['customerID']}}</td>
+                <td>{{row['couponID']}}</td>
+                <td>{{row['orderStatus']}}</td>
             </tr>
             {% endfor %}
     
         </table>
-        <div>*Customer ID Filter: None</div>
+        <div>*Customer ID Filter: {{filter}}</div>
         <br>
 
         <!--
@@ -59,73 +59,91 @@
         Source URL: https://www.w3schools.com/tags/tag_form.asp
         -->
 
-        <form>
-        <fieldset>
-            <legend>Filter Orders for a Specific Customer</legend>
-            <p>
-            <label>Customer ID:
-                <input type="text" id="customerID" size="30" maxlength="100"></label>
-            <br>
-            </p>
-            <input type="submit" id="filter_orders" value="Filter Orders">
-            <br>
-            <input type="submit" id="clear_filter" value="Clear Filter">
-        </fieldset>
+        <form action="/orders" method="get">
+            <fieldset>
+                <legend>Filter Orders for a Specific Customer</legend>
+                <p>
+                <label>Customer ID:
+                    <select name="customerID" id="customerID">
+                        <option value="">Clear Filter</option>
+                        {% for row in customer_names %}
+                        <option value="{{row['customerID']}}">{{row['customerID'] ~ ', ' ~ row['firstName'] ~ ' ' ~ row['lastName']}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                </p>
+                <input type="submit" id="filter_orders"  value="Apply Filter">
+            </fieldset>
+        </form>
         <br>
-        <fieldset>
-            <legend>Add New Order</legend>
-            <p>
-            <label>Order Date:
-                <input type="date" id="orderDate" size="30" maxlength="100"></label>
-            <br>
-            <label>Customer ID:
-                <input type="text" id="customerID" size="30" maxlength="100"></label>
-            <br>
-            <label>Coupon ID:
-                <input type="text" id="couponID" size="30" maxlength="100"></label>
-            <br>
+        <form action="/orders" method="post">
+            <fieldset>
+                <legend>Add New Order</legend>
+                <p>
+                <label>Order Date:
+                    <input type="date" id="orderDate" name="orderDate" size="30" maxlength="100" min="2021-01-01" required></label>
+                <br>
+                <label>Customer ID:
+                    <select name="customerID" id="customerID">
+                        {% for row in customer_names %}
+                        <option value="{{row['customerID']}}">{{row['customerID'] ~ ', ' ~ row['firstName'] ~ ' ' ~ row['lastName']}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                <label>Coupon ID:
+                    <select name="couponID" id="couponID">
+                        <option value=""></option>
+                        {% for row in coupon_info %}
+                        <option value="{{row['couponID']}}">{{row['couponID']}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
 
-            <label>Order Status:
-                <select name="orderStatus" id="orderStatus">
-                    <option value="inProcess">In Process</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                </select>
-                <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
-            <br>
-            </p>
-            <input type="submit" id="add_orders" value="Add Order">
-        </fieldset>
-        <fieldset>
-            <legend>Delete An Order</legend>
-            <p>
-            <label>Order ID:
-                <input type="text" id="orderID" size="30" maxlength="100"></label>
-            <br>
-            </p>
-            <input type="submit" id="delete_orders" value="Delete Order">
-        </fieldset>
+                <label>Order Status:
+                    <select name="orderStatus" id="orderStatus">
+                        <option value="inProcess">In Process</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                    </select>                    
+                <br>
+                </p>
+                <input type="submit" id="add_orders" value="Add Order">
+            </fieldset>
+        </form>
         <br>
-        <fieldset>
-            <legend>Update An Order</legend>
-            <p>
-            <label>Order ID:
-                <input type="text" id="orderID" size="30" maxlength="100"></label>
-            <br>
-            <label>Order Status:
-                <select name="orderStatus" id="orderStatus">
-                    <option value="inProcess">In Process</option>
-                    <option value="shipped">Shipped</option>
-                    <option value="delivered">Delivered</option>
-                </select>
-                <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
-            <br>
-            <label>Coupon ID:
-                <input type="text" id="couponID" size="30" maxlength="100"></label>
-            <br>
-            </p>
-            <input type="submit" id="update_orders" value="Update Order">
-        </fieldset>
+        <form>
+            <fieldset>
+                <legend>Delete An Order</legend>
+                <p>
+                <label>Order ID:
+                    <input type="text" id="orderID" size="30" maxlength="100"></label>
+                <br>
+                </p>
+                <input type="submit" id="delete_orders" value="Delete Order">
+            </fieldset>
+        </form>
+        <br>
+        <form>
+            <fieldset>
+                <legend>Update An Order</legend>
+                <p>
+                <label>Order ID:
+                    <input type="text" id="orderID" size="30" maxlength="100"></label>
+                <br>
+                <label>Order Status:
+                    <select name="orderStatus" id="orderStatus">
+                        <option value="inProcess">In Process</option>
+                        <option value="shipped">Shipped</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
+                    <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
+                <br>
+                <label>Coupon ID:
+                    <input type="text" id="couponID" size="30" maxlength="100"></label>
+                <br>
+                </p>
+                <input type="submit" id="update_orders" value="Update Order">
+            </fieldset>
         </form>
     </body>
 </html>

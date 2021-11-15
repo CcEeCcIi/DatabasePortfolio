@@ -23,11 +23,11 @@ CREATE TABLE `Customers` (
 LOCK TABLES `Customers` WRITE;
 
 INSERT INTO `Customers` (`firstName`, `lastName`, `streetAddress`, `city`, `state`, `zipCode`, `phoneNumber`, `email`)
-    VALUES ("Amy", "McDonald", "Ap#1 Sodales Av.", "Tamuning", "PA", "10855", "(654) 393-5734", "abc@mail.com"), 
-            ("Kyla", "Olsen", "101 Integer Rd.", "Muskegon", "KY", "12482", "(314) 244-6306", "erg@mail.com"),
-            ("Davis", "Patrick", "P.O. Box 147 Sociosqu Rd.", "Bethlehem", "UT", "02913", "(939) 353-1107", "dvi@mail.com"),
-            ("Bryar ", "Pitts", "3 Aliquet St.", "Fort Dodge", "GA", "20783", "(717) 450-4729", "efb@mail.com"),
-            ("Rahim", "Henderson", "5370 Diam Rd.", "Daly City", "OH", "90255", "(453) 391-4650", "rah@mail.com");
+    VALUES ("Amy", "McDonald", "Ap#1 Sodales Av.", "Tamuning", "PA", "10855", "654-393-5734", "abc@mail.com"), 
+            ("Kyla", "Olsen", "101 Integer Rd.", "Muskegon", "KY", "12482", "314-244-6306", "erg@mail.com"),
+            ("Davis", "Patrick", "P.O. Box 147 Sociosqu Rd.", "Bethlehem", "UT", "02913", "939-353-1107", "dvi@mail.com"),
+            ("Bryar ", "Pitts", "3 Aliquet St.", "Fort Dodge", "GA", "20783", "717-450-4729", "efb@mail.com"),
+            ("Rahim", "Henderson", "5370 Diam Rd.", "Daly City", "OH", "90255", "453-391-4650", "rah@mail.com");
             
 UNLOCK TABLES;
 
@@ -78,7 +78,7 @@ UNLOCK TABLES;
 /* Define the Orders table */
 CREATE TABLE `Orders` (
     `orderID` int AUTO_INCREMENT NOT NULL,
-    `orderDate` datetime NOT NULL,
+    `orderDate` DATE NOT NULL,
     `customerID` int NOT NULL,
     `couponID` VARCHAR(255),
     `orderStatus` VARCHAR(255) NOT NULL,
@@ -97,11 +97,11 @@ CREATE TABLE `Orders` (
 LOCK TABLES `Orders` WRITE;
 
 INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`)
-    VALUES ("2021-10-12 12:03:35", 1, "THANKYOU", "in process"),
-            ("2021-10-20 16:40:23", 4, NULL, "in process"),
-            ("2021-11-1 19:00:21", 2, NULL, "in process"),
-            ("2021-11-3 02:05:45", 3, "NEWYEAR", "in process"),
-            ("2021-11-5 10:54:01", 5, NULL, "in process");
+    VALUES ("2021-10-12", 1, "THANKYOU", "inProcess"),
+            ("2021-10-20", 4, NULL, "inProcess"),
+            ("2021-11-1", 2, NULL, "inProcess"),
+            ("2021-11-3", 3, "NEWYEAR", "inProcess"),
+            ("2021-11-5", 5, NULL, "inProcess");
             
 UNLOCK TABLES;            
 
