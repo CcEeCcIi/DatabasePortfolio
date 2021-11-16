@@ -35,10 +35,10 @@
             </tr>
             <tbody>
             
-            {% for row in order_prod_info %}
+            {% for row in orderProducts_info %}
             <tr>
-                <td>{{row['order_id']}}</td>
-                <td>{{row['product_id']}}</td>
+                <td>{{row['orderID']}}</td>
+                <td>{{row['productID']}}</td>
                 <td>{{row['quantity']}}</td>
             </tr>
             {% endfor %}
@@ -53,18 +53,26 @@
         Source URL: https://www.w3schools.com/tags/tag_form.asp
         -->
 
-        <form>
+        <form action="/orderProducts" method="post">
         <fieldset>
             <legend>Add New OrderProducts</legend>
             <p>
             <label>Order ID:
-                <input type="text" id="orderID" size="30" maxlength="100"></label>
+                <select name="orderID" id="orderID">
+                    {% for row in orders_info %}
+                    <option value="{{row['orderID']}}">{{row['orderID']}}</option>
+                    {% endfor %}
+                </select>
             <br>
             <label>Product ID:
-                <input type="text" id="productID" size="30" maxlength="100"></label>
+                <select name="productID" id="productID">
+                    {% for row in products_info %}
+                    <option value="{{row['productID']}}">{{row['productID']}}</option>
+                    {% endfor %}
+                </select>
             <br>
             <label>Quantity:
-                <input type="number" id="quantity" min="0"></label>
+                <input type="number" name="quantity" min="0"></label>
             <br>
             </p>
             <input type="submit" id="add_orderProducts" value="Add OrderProducts">
