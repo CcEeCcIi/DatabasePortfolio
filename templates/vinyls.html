@@ -64,19 +64,19 @@
             <legend>Add New Vinyl Record</legend>
             <p>
             <label>Album Name:
-                <input type="text" name="albumName" size="30" maxlength="100"></label>
+                <input type="text" name="albumName" size="30" maxlength="100" required></label>
             <br>
             <label>Artist Name:
-                <input type="text" name="artistName" size="30" maxlength="100"></label>
+                <input type="text" name="artistName" size="30" maxlength="100" required></label>
             <br>
             <label>Genre:
-                <input type="text" name="genre" size="30" maxlength="100"></label>
+                <input type="text" name="genre" size="30" maxlength="100" required></label>
             <br>
             <label>Price:
-                <input type="number" name="price" min="0" step="any"></label>
+                <input type="number" name="price" min="0" step="any" required></label>
             <br>
             <label>Quantity Available:
-                <input type="number" name="quantityAvailable" min="0"></label>
+                <input type="number" name="quantityAvailable" min="0" required></label>
             <br>
             </p>
             <input type="submit" id="add_vinyls" value="Add Vinyl">

@@ -1,22 +1,17 @@
 from flask import Flask, render_template, request
 import os
 from flask.helpers import url_for
-
-from flask.wrappers import Request
 from werkzeug.utils import redirect
 import database.db_connector as db
 
 
 # Configuration
-
 app = Flask(__name__)
 
 # Connect to database when server is started
 db_connection = db.connect_to_database()
 
-
 # Routes 
-
 @app.route('/')
 def root():
     """Serves the website home page"""
@@ -64,7 +59,7 @@ def vinyls():
     """Serves the Vinyls page"""
 
     # Sample data to fill first two rows on table
-    #vinyl_info = [{"product_id": 3, "album": "Back in Black", "artist": "AC/DC", "genre": "hard rock", "price": 21.67, "quantity_available": 23},
+    # vinyl_info = [{"product_id": 3, "album": "Back in Black", "artist": "AC/DC", "genre": "hard rock", "price": 21.67, "quantity_available": 23},
     #              {"product_id": 5, "album": "The Dark Side of the Moon", "artist": "Pink Floyd/DC", "genre": "rock", "price": 18.99, "quantity_available": 29}]
 
     # Handle GET requests by fetching all Customers data
@@ -137,6 +132,7 @@ def orders():
         return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, orderID_info=orderID_info, filter=customer_filter)
     
     if request.method == 'POST':
+
         # If add an order
         if request.form.get('customerID') != None:
             order_date = request.form['orderDate']
@@ -151,6 +147,7 @@ def orders():
             else:
                 query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, %s, %s);"
                 data = (order_date, customer_id, coupon_id, order_status)
+            
             # Execute query to insert data
             db.execute_query(db_connection, query, data)
         
@@ -167,6 +164,7 @@ def orders():
             else:
                 query = "UPDATE `Orders` SET `orderStatus` = %s, `couponID` = %s WHERE `orderID` = %s;"
                 data = (orderStatus_to_update, coupon_to_update, order_to_update)
+            
             # Execute query to update data
             db.execute_query(db_connection, query, data)
         # Redirect to same webpage after form submission
@@ -178,7 +176,7 @@ def coupons():
     """Serves the Coupons Products page"""
 
     # Sample data to fill first two rows on table
-    #coupon_info = [{"coupon_id": "FALL_2021", "discount": 0.25, "expire_date": "2021-11-23"},
+    # coupon_info = [{"coupon_id": "FALL_2021", "discount": 0.25, "expire_date": "2021-11-23"},
     #               {"coupon_id": "FOOTOWN_SPECIAL", "discount": 0.15, "expire_date": "2021-10-31"}]
 
     # Handle GET requests by fetching all Customers data

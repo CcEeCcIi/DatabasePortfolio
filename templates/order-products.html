@@ -54,42 +54,44 @@
         -->
 
         <form action="/orderProducts" method="post">
-        <fieldset>
-            <legend>Add New OrderProducts</legend>
-            <p>
-            <label>Order ID:
-                <select name="orderID" id="orderID">
-                    {% for row in orders_info %}
-                    <option value="{{row['orderID']}}">{{row['orderID']}}</option>
-                    {% endfor %}
-                </select>
-            <br>
-            <label>Product ID:
-                <select name="productID" id="productID">
-                    {% for row in products_info %}
-                    <option value="{{row['productID']}}">{{row['productID']}}</option>
-                    {% endfor %}
-                </select>
-            <br>
-            <label>Quantity:
-                <input type="number" name="quantity" min="0"></label>
-            <br>
-            </p>
-            <input type="submit" id="add_orderProducts" value="Add OrderProducts">
-        </fieldset>
+            <fieldset>
+                <legend>Add New OrderProducts</legend>
+                <p>
+                <label>Order ID:
+                    <select name="orderID" id="orderID">
+                        {% for row in orders_info %}
+                        <option value="{{row['orderID']}}">{{row['orderID']}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                <label>Product ID:
+                    <select name="productID" id="productID">
+                        {% for row in products_info %}
+                        <option value="{{row['productID']}}">{{row['productID']}}</option>
+                        {% endfor %}
+                    </select>
+                <br>
+                <label>Quantity:
+                    <input type="number" name="quantity" min="1" required></label>
+                <br>
+                </p>
+                <input type="submit" id="add_orderProducts" value="Add OrderProducts">
+            </fieldset>
+        </form>
         <br>
-        <fieldset>
-            <legend>Delete an OrderProducts</legend>
-            <p>
-            <label>Order ID:
-                <input type="text" id="orderID" size="30" maxlength="100"></label>
-            <br>
-            <label>Product ID:
-                <input type="text" id="productID" size="30" maxlength="100"></label>
-            <br>
-            </p>
-            <input type="submit" id="delete" value="Delete OrderProducts">
-        </fieldset>
+        <form>
+            <fieldset>
+                <legend>Delete an OrderProducts</legend>
+                <p>
+                <label>Order ID:
+                    <input type="text" id="orderID" size="30" maxlength="100"></label>
+                <br>
+                <label>Product ID:
+                    <input type="text" id="productID" size="30" maxlength="100"></label>
+                <br>
+                </p>
+                <input type="submit" id="delete" value="Delete OrderProducts">
+            </fieldset>
         </form>
     </body>
 </html>
