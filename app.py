@@ -78,19 +78,31 @@ def orders():
     if request.method == 'GET':
         customer_filter = None  # customerID filter initialized to None
         
-        # If there are no query parameters then select entire table
-        if len(request.args) == 0:
-            query_orders = "SELECT * FROM `Orders`;"
+    
+        # default query: select the entire table
+        query_orders = "SELECT * FROM `Orders`;"
 
+        # if there is no request parameter, skip to show the entire table
+        if len(request.args) == 0:
+            pass
+
+        # Delete order by orderID
+        elif request.args.get('order_to_delete') != None:
+            order_to_delete = request.args['order_to_delete']
+            query_delete_order = "DELETE FROM `Orders` WHERE `orderID` = " + order_to_delete + ";"
+            print("query:", query_delete_order)
+            db.execute_query(db_connection, query_delete_order)
+        
         # If 'Clear Filter' option is chosen, refresh page with no filters
-        elif request.args['customerID'] == "":
+        elif request.args.get('customerID') == "":
             return redirect(url_for('orders'))
 
         # Otherwise select table with customerID filters applied
-        else:
+        elif request.args.get('customerID') != None:
             customer_filter = request.args['customerID']
             query_orders = "SELECT * FROM `Orders` WHERE customerID = " + customer_filter + ";"
-
+            
+            
         order_info = db.execute_query(db_connection, query_orders).fetchall()
 
         # Fetch all customerID's for drop down menu
@@ -100,29 +112,51 @@ def orders():
         # Fetch all couponID's for drop down menu
         query_coupons = "SELECT `couponID` FROM `Coupons`;"
         coupon_info = db.execute_query(db_connection, query_coupons)
+        
+        # Fetch all orderID's for drop down menu
+        query_orderID = "SELECT `orderID` FROM `Orders`;"
+        orderID_info = db.execute_query(db_connection, query_orderID)
 
-        return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, filter=customer_filter)
+         
+        return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, orderID_info=orderID_info, filter=customer_filter)
     
     if request.method == 'POST':
-        order_date = request.form['orderDate']
-        customer_id = request.form['customerID']
-        coupon_id = request.form['couponID']
-        order_status = request.form['orderStatus']
 
-        # Handle case when no couponID is given
-        if coupon_id == "":
-            query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, NULL, %s);"
-            data = (order_date, customer_id, order_status)
-        else:
-            query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, %s, %s);"
-            data = (order_date, customer_id, coupon_id, order_status)
-
-        # Execute query to insert data
-        db.execute_query(db_connection, query, data)
+        if request.form.get('customerID') != None:
+            order_date = request.form['orderDate']
+            customer_id = request.form['customerID']
+            coupon_id = request.form['couponID']
+            order_status = request.form['orderStatus']
+            
+            # Handle case when no couponID is given
+            if coupon_id == "":
+                query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, NULL, %s);"
+                data = (order_date, customer_id, order_status)
+            else:
+                query = "INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`) VALUES (%s, %s, %s, %s);"
+                data = (order_date, customer_id, coupon_id, order_status)
+            # Execute query to insert data
+            db.execute_query(db_connection, query, data)
+        
+        if request.form.get('order_to_update') != None:
+            order_to_update = request.form['order_to_update']
+            orderStatus_to_update = request.form['orderStatus_to_update']
+            coupon_to_update = request.form['coupon_to_update']
+            
+            # Handle case when no couponID is given
+            if coupon_to_update == "":
+                query = "UPDATE `Orders` SET `orderStatus` = %s, `couponID` = NULL WHERE `orderID` = %s;"
+                data = (orderStatus_to_update, order_to_update)
+            else:
+                query = "UPDATE `Orders` SET `orderStatus` = %s, `couponID` = %s WHERE `orderID` = %s;"
+                data = (orderStatus_to_update, coupon_to_update, order_to_update)
+            # Execute query to update data
+            db.execute_query(db_connection, query, data)
 
         # Redirect to same webpage after form submission
         return redirect(url_for('orders'))
     
+
 
 @app.route('/coupons')
 def coupons():

@@ -111,27 +111,36 @@
             </fieldset>
         </form>
         <br>
-        <form>
+        <form action="/orders" method="get">
             <fieldset>
                 <legend>Delete An Order</legend>
                 <p>
                 <label>Order ID:
-                    <input type="text" id="orderID" size="30" maxlength="100"></label>
+                    <select name="order_to_delete" id="order_to_delete">
+                        {% for row in orderID_info %}
+                        <option value="{{row['orderID']}}">{{row['orderID']}}</option>
+                        {% endfor %}
+                    </select>
                 <br>
                 </p>
                 <input type="submit" id="delete_orders" value="Delete Order">
             </fieldset>
         </form>
         <br>
-        <form>
+        <form action="/orders" method="post">
             <fieldset>
                 <legend>Update An Order</legend>
                 <p>
                 <label>Order ID:
-                    <input type="text" id="orderID" size="30" maxlength="100"></label>
+                    <select name="order_to_update" id="order_to_update">
+                        {% for row in orderID_info %}
+                        <option value="{{row['orderID']}}">{{row['orderID']}}</option>
+                        {% endfor %}
+                    </select>
+                    <!--<input type="text" id="orderID" size="30" maxlength="100"></label>--!>
                 <br>
                 <label>Order Status:
-                    <select name="orderStatus" id="orderStatus">
+                    <select name="orderStatus_to_update" id="orderStatus_to_update">
                         <option value="inProcess">In Process</option>
                         <option value="shipped">Shipped</option>
                         <option value="delivered">Delivered</option>
@@ -139,7 +148,13 @@
                     <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
                 <br>
                 <label>Coupon ID:
-                    <input type="text" id="couponID" size="30" maxlength="100"></label>
+                    <select name="coupon_to_update" id="coupon_to_update">
+                        <option value=""></option>
+                        {% for row in coupon_info %}
+                        <option value="{{row['couponID']}}">{{row['couponID']}}</option>
+                        {% endfor %}
+                    </select>
+                    <!--<input type="text" id="couponID" size="30" maxlength="100"></label>--!>
                 <br>
                 </p>
                 <input type="submit" id="update_orders" value="Update Order">
