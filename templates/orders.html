@@ -137,7 +137,6 @@
                         <option value="{{row['orderID']}}">{{row['orderID']}}</option>
                         {% endfor %}
                     </select>
-                    <!--<input type="text" id="orderID" size="30" maxlength="100"></label>--!>
                 <br>
                 <label>Order Status:
                     <select name="orderStatus_to_update" id="orderStatus_to_update">
@@ -145,7 +144,6 @@
                         <option value="shipped">Shipped</option>
                         <option value="delivered">Delivered</option>
                     </select>
-                    <!--<input type="text" id="orderStatus" size="30" maxlength="100"></label>-->
                 <br>
                 <label>Coupon ID:
                     <select name="coupon_to_update" id="coupon_to_update">
@@ -154,7 +152,6 @@
                         <option value="{{row['couponID']}}">{{row['couponID']}}</option>
                         {% endfor %}
                     </select>
-                    <!--<input type="text" id="couponID" size="30" maxlength="100"></label>--!>
                 <br>
                 </p>
                 <input type="submit" id="update_orders" value="Update Order">

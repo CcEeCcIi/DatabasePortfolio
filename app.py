@@ -59,15 +59,36 @@ def customers():
         return redirect(url_for('customers'))
     
 
-@app.route('/vinyls')
+@app.route('/vinyls', methods=['GET', 'POST'])
 def vinyls():
     """Serves the Vinyls page"""
 
     # Sample data to fill first two rows on table
-    vinyl_info = [{"product_id": 3, "album": "Back in Black", "artist": "AC/DC", "genre": "hard rock", "price": 21.67, "quantity_available": 23},
-                  {"product_id": 5, "album": "The Dark Side of the Moon", "artist": "Pink Floyd/DC", "genre": "rock", "price": 18.99, "quantity_available": 29}]
+    #vinyl_info = [{"product_id": 3, "album": "Back in Black", "artist": "AC/DC", "genre": "hard rock", "price": 21.67, "quantity_available": 23},
+    #              {"product_id": 5, "album": "The Dark Side of the Moon", "artist": "Pink Floyd/DC", "genre": "rock", "price": 18.99, "quantity_available": 29}]
 
-    return render_template("vinyls.html", vinyl_info=vinyl_info)
+    # Handle GET requests by fetching all Customers data
+    if request.method == 'GET':
+        query = "SELECT * FROM `Vinyls`;"
+        vinyl_info = db.execute_query(db_connection, query).fetchall()
+        return render_template("vinyls.html", vinyl_info=vinyl_info)
+
+    # Handle POST requests by inserting form data from front end
+    if request.method == 'POST':
+        album_name = request.form['albumName']
+        artist_name = request.form['artistName']
+        genre = request.form['genre']
+        price = request.form['price']
+        quantity_available = request.form['quantityAvailable']
+        
+        query = "INSERT INTO `Vinyls` (`albumName`, `artistName`, `genre`, `price`, `quantityAvailable`) VALUES (%s, %s, %s, %s, %s);"
+        data = (album_name, artist_name, genre, price, quantity_available)
+        
+        # Execute query to insert data
+        db.execute_query(db_connection, query, data)
+        
+        # Redirect to same webpage after form submission
+        return redirect(url_for('vinyls'))
 
 
 @app.route('/orders', methods=['GET', 'POST'])
@@ -77,7 +98,6 @@ def orders():
     # Handle GET requests by fetching all Orders data
     if request.method == 'GET':
         customer_filter = None  # customerID filter initialized to None
-        
     
         # default query: select the entire table
         query_orders = "SELECT * FROM `Orders`;"
@@ -90,7 +110,6 @@ def orders():
         elif request.args.get('order_to_delete') != None:
             order_to_delete = request.args['order_to_delete']
             query_delete_order = "DELETE FROM `Orders` WHERE `orderID` = " + order_to_delete + ";"
-            print("query:", query_delete_order)
             db.execute_query(db_connection, query_delete_order)
         
         # If 'Clear Filter' option is chosen, refresh page with no filters
@@ -101,7 +120,6 @@ def orders():
         elif request.args.get('customerID') != None:
             customer_filter = request.args['customerID']
             query_orders = "SELECT * FROM `Orders` WHERE customerID = " + customer_filter + ";"
-            
             
         order_info = db.execute_query(db_connection, query_orders).fetchall()
 
@@ -116,12 +134,10 @@ def orders():
         # Fetch all orderID's for drop down menu
         query_orderID = "SELECT `orderID` FROM `Orders`;"
         orderID_info = db.execute_query(db_connection, query_orderID)
-
-         
         return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, orderID_info=orderID_info, filter=customer_filter)
     
     if request.method == 'POST':
-
+        # If add an order
         if request.form.get('customerID') != None:
             order_date = request.form['orderDate']
             customer_id = request.form['customerID']
@@ -138,6 +154,7 @@ def orders():
             # Execute query to insert data
             db.execute_query(db_connection, query, data)
         
+        # If update an order
         if request.form.get('order_to_update') != None:
             order_to_update = request.form['order_to_update']
             orderStatus_to_update = request.form['orderStatus_to_update']
@@ -152,32 +169,80 @@ def orders():
                 data = (orderStatus_to_update, coupon_to_update, order_to_update)
             # Execute query to update data
             db.execute_query(db_connection, query, data)
-
         # Redirect to same webpage after form submission
         return redirect(url_for('orders'))
-    
 
 
-@app.route('/coupons')
+@app.route('/coupons', methods=['GET', 'POST'])
 def coupons():
     """Serves the Coupons Products page"""
 
     # Sample data to fill first two rows on table
-    coupon_info = [{"coupon_id": "FALL_2021", "discount": 0.25, "expire_date": "2021-11-23"},
-                   {"coupon_id": "FOOTOWN_SPECIAL", "discount": 0.15, "expire_date": "2021-10-31"}]
+    #coupon_info = [{"coupon_id": "FALL_2021", "discount": 0.25, "expire_date": "2021-11-23"},
+    #               {"coupon_id": "FOOTOWN_SPECIAL", "discount": 0.15, "expire_date": "2021-10-31"}]
 
-    return render_template("coupons.html", coupon_info=coupon_info)
+    # Handle GET requests by fetching all Customers data
+    if request.method == 'GET':
+        query = "SELECT * FROM `Coupons`;"
+        coupon_info = db.execute_query(db_connection, query).fetchall()
+        return render_template("coupons.html", coupon_info=coupon_info)
+
+    # Handle POST requests by inserting form data from front end
+    if request.method == 'POST':
+        couponID = request.form['couponID']
+        percentDiscount = request.form['percentDiscount']
+        expirationDate = request.form['expirationDate']
+        
+        query = "INSERT INTO `Coupons` VALUES (%s, %s, %s);"
+        data = (couponID, percentDiscount, expirationDate)
+        
+        # Execute query to insert data
+        db.execute_query(db_connection, query, data)
+        
+        # Redirect to same webpage after form submission
+        return redirect(url_for('coupons'))
 
 
-@app.route('/orderProducts')
+@app.route('/orderProducts', methods=['GET', 'POST'])
 def order_products():
     """Serves the Order Products page"""
 
-    # Sample data to fill first two rows on table
-    order_prod_info = [{"order_id": 35, "product_id": 4, "quantity": 3},
-                       {"order_id": 39, "product_id": 11, "quantity": 4}]
+    # Handle GET requests by fetching all Customers data
+    if request.method == 'GET':
+        query = "SELECT * FROM `OrderProducts`;"
+        orderProducts_info = db.execute_query(db_connection, query).fetchall()
+        
+        # Fetch all orderID's for drop down menu
+        query_orders = "SELECT `orderID` FROM `Orders`;"
+        orders_info = db.execute_query(db_connection, query_orders)
+        
+        # Fetch all productID's for drop down menu
+        query_products = "SELECT `productID` FROM `Vinyls`;"
+        products_info = db.execute_query(db_connection, query_products)
+        return render_template("order-products.html", \
+                                orderProducts_info=orderProducts_info, \
+                                orders_info = orders_info, \
+                                products_info = products_info)
 
-    return render_template("order-products.html", order_prod_info=order_prod_info)
+    # Handle POST requests by inserting form data from front end
+    if request.method == 'POST':
+        orderID = request.form['orderID']
+        productID = request.form['productID']
+        quantity = request.form['quantity']
+        
+        query = "INSERT INTO `OrderProducts` VALUES (%s, %s, %s);"
+        data = (orderID, productID, quantity)
+        
+        # Execute query to insert data
+        db.execute_query(db_connection, query, data)
+        
+        # Redirect to same webpage after form submission
+        return redirect(url_for('order_products'))
+
+    #TODO DELETE OrderProducts
+
+
+
 
 # Listener
 if __name__ == "__main__":
