@@ -58,13 +58,13 @@
             <legend>Add New Coupon</legend>
             <p>
             <label>Coupon ID:
-                <input type="text" name="couponID" size="30" maxlength="100"></label>
+                <input type="text" name="couponID" size="30" maxlength="100" required></label>
             <br>
-            <label>Percent Discount:
-                <input type="number" name="percentDiscount" min="0"></label>
+            <label>Percent Discount: (enter an integer value, ex. entering 90 means new price is 90% of total price)
+                <input type="number" name="percentDiscount" min="0" required></label>
             <br>
             <label>Expiration Date:
-                <input type="date" name="expirationDate"></label>
+                <input type="date" name="expirationDate" required></label>
             <br>
             </p>
             <input type="submit" id="add_coupons" value="Add Coupon">
