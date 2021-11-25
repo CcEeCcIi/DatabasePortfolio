@@ -23,7 +23,7 @@
             <a href="/coupons">Coupons</a>
             <a class="active" href="/orderProducts">OrderProducts</a>     
         </div>
-        <br>
+        <br>        
         <h1> Manage OrderProducts Data</h1>
 
         <table>
@@ -35,7 +35,7 @@
             </tr>
             <tbody>
             
-            {% for row in orderProducts_info %}
+            {% for row in order_products_info %}
             <tr>
                 <td>{{row['orderID']}}</td>
                 <td>{{row['productID']}}</td>
@@ -75,20 +75,22 @@
                     <input type="number" name="quantity" min="1" required></label>
                 <br>
                 </p>
+                <p>Please Note: If a chosen Order ID and Product ID combo already exists, row will not be added.</p>
                 <input type="submit" id="add_orderProducts" value="Add OrderProducts">
             </fieldset>
         </form>
         <br>
-        <form>
+        <form action="/orderProducts/delete" method="post">
             <fieldset>
                 <legend>Delete an OrderProducts</legend>
                 <p>
-                <label>Order ID:
-                    <input type="text" id="orderID" size="30" maxlength="100"></label>
-                <br>
-                <label>Product ID:
-                    <input type="text" id="productID" size="30" maxlength="100"></label>
-                <br>
+                <label>Order ID, Product ID:
+                    <select name="orderID_productID" id="orderID_productID"  >
+                        {% for row in order_products_info %}
+                        <!--Pass orderID and productID as comma separated values-->
+                        <option value="{{row['orderID']}},{{row['productID']}}">{{row['orderID'] ~ ', ' ~ row['productID']}}</option>
+                        {% endfor %}
+                    </select>
                 </p>
                 <input type="submit" id="delete" value="Delete OrderProducts">
             </fieldset>

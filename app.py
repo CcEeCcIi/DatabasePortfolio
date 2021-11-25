@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 import os
-from flask.helpers import url_for
+from flask.helpers import flash, url_for
 from werkzeug.utils import redirect
 import database.db_connector as db
 
@@ -57,10 +57,6 @@ def customers():
 @app.route('/vinyls', methods=['GET', 'POST'])
 def vinyls():
     """Serves the Vinyls page"""
-
-    # Sample data to fill first two rows on table
-    # vinyl_info = [{"product_id": 3, "album": "Back in Black", "artist": "AC/DC", "genre": "hard rock", "price": 21.67, "quantity_available": 23},
-    #              {"product_id": 5, "album": "The Dark Side of the Moon", "artist": "Pink Floyd/DC", "genre": "rock", "price": 18.99, "quantity_available": 29}]
 
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
@@ -127,7 +123,7 @@ def orders():
         coupon_info = db.execute_query(db_connection, query_coupons)
         
         # Fetch all orderID's for drop down menu
-        query_orderID = "SELECT `orderID` FROM `Orders`;"
+        query_orderID = "SELECT `orderID` FROM `Orders` ORDER BY `orderID`;"
         orderID_info = db.execute_query(db_connection, query_orderID)
         return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, orderID_info=orderID_info, filter=customer_filter)
     
@@ -167,6 +163,7 @@ def orders():
             
             # Execute query to update data
             db.execute_query(db_connection, query, data)
+
         # Redirect to same webpage after form submission
         return redirect(url_for('orders'))
 
@@ -174,10 +171,6 @@ def orders():
 @app.route('/coupons', methods=['GET', 'POST'])
 def coupons():
     """Serves the Coupons Products page"""
-
-    # Sample data to fill first two rows on table
-    # coupon_info = [{"coupon_id": "FALL_2021", "discount": 0.25, "expire_date": "2021-11-23"},
-    #               {"coupon_id": "FOOTOWN_SPECIAL", "discount": 0.15, "expire_date": "2021-10-31"}]
 
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
@@ -208,19 +201,19 @@ def order_products():
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
         query = "SELECT * FROM `OrderProducts`;"
-        orderProducts_info = db.execute_query(db_connection, query).fetchall()
+        order_products_info = db.execute_query(db_connection, query).fetchall()
         
         # Fetch all orderID's for drop down menu
-        query_orders = "SELECT `orderID` FROM `Orders`;"
+        query_orders = "SELECT `orderID` FROM `Orders` ORDER BY `orderID`;"
         orders_info = db.execute_query(db_connection, query_orders)
         
         # Fetch all productID's for drop down menu
-        query_products = "SELECT `productID` FROM `Vinyls`;"
+        query_products = "SELECT `productID` FROM `Vinyls` ORDER BY `productID`;"
         products_info = db.execute_query(db_connection, query_products)
         return render_template("order-products.html", \
-                                orderProducts_info=orderProducts_info, \
-                                orders_info = orders_info, \
-                                products_info = products_info)
+                                order_products_info=order_products_info, \
+                                orders_info=orders_info, \
+                                products_info=products_info)
 
     # Handle POST requests by inserting form data from front end
     if request.method == 'POST':
@@ -228,18 +221,32 @@ def order_products():
         productID = request.form['productID']
         quantity = request.form['quantity']
         
-        query = "INSERT INTO `OrderProducts` VALUES (%s, %s, %s);"
+        query = "INSERT IGNORE INTO `OrderProducts` VALUES (%s, %s, %s);"
         data = (orderID, productID, quantity)
         
         # Execute query to insert data
         db.execute_query(db_connection, query, data)
-        
+
         # Redirect to same webpage after form submission
         return redirect(url_for('order_products'))
 
-    #TODO DELETE OrderProducts
 
+@app.route('/orderProducts/delete', methods=['POST'])
+def order_products_delete():
+    """Handles DELETE requests for the OrderProducts table"""
 
+    # Get form parameters
+    order_prod_id = request.form['orderID_productID'].split(",")
+    order_id = order_prod_id[0]
+    product_id = order_prod_id[1]
+
+    # Execute delete query using parameters
+    query = "DELETE FROM `OrderProducts` WHERE `orderID` = %s AND `productID` = %s;"
+    data = (order_id, product_id)
+    db.execute_query(db_connection, query, data)    
+
+    # Redirect to same webpage
+    return redirect(url_for('order_products'))
 
 
 # Listener

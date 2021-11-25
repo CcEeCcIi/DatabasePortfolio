@@ -37,7 +37,7 @@ INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`)
     VALUES (:orderDate, :customerID, :couponID, :orderStatus);
 
 -- add a new OrderProduct
-INSERT INTO `OrderProducts` VALUES (:orderID, :productID, :quantity);
+INSERT IGNORE INTO `OrderProducts` VALUES (:orderID, :productID, :quantity);
 
 -- filter orders by user's input
 SELECT * FROM `Orders` WHERE `customerID` = :customerID_input;
