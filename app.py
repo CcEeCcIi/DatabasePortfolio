@@ -184,7 +184,7 @@ def coupons():
         percentDiscount = request.form['percentDiscount']
         expirationDate = request.form['expirationDate']
         
-        query = "INSERT INTO `Coupons` VALUES (%s, %s, %s);"
+        query = "INSERT IGNORE INTO `Coupons` VALUES (%s, %s, %s);"
         data = (couponID, percentDiscount, expirationDate)
         
         # Execute query to insert data
@@ -208,7 +208,7 @@ def order_products():
         orders_info = db.execute_query(db_connection, query_orders)
         
         # Fetch all productID's for drop down menu
-        query_products = "SELECT `productID` FROM `Vinyls` ORDER BY `productID`;"
+        query_products = "SELECT `productID`, `albumName` FROM `Vinyls` ORDER BY `productID`;"
         products_info = db.execute_query(db_connection, query_products)
         return render_template("order-products.html", \
                                 order_products_info=order_products_info, \

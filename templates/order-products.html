@@ -53,7 +53,7 @@
         Source URL: https://www.w3schools.com/tags/tag_form.asp
         -->
 
-        <form action="/orderProducts" method="post">
+        <form action="/orderProducts" method="post" class="orderProdForm">
             <fieldset>
                 <legend>Add New OrderProducts</legend>
                 <p>
@@ -67,7 +67,7 @@
                 <label>Product ID:
                     <select name="productID" id="productID">
                         {% for row in products_info %}
-                        <option value="{{row['productID']}}">{{row['productID']}}</option>
+                        <option value="{{row['productID']}}">{{row['productID'] ~ ', ' ~ row['albumName']}}</option>
                         {% endfor %}
                     </select>
                 <br>
@@ -80,7 +80,7 @@
             </fieldset>
         </form>
         <br>
-        <form action="/orderProducts/delete" method="post">
+        <form action="/orderProducts/delete" method="post" class="orderProdForm">
             <fieldset>
                 <legend>Delete an OrderProducts</legend>
                 <p>
