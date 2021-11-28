@@ -30,14 +30,14 @@ INSERT INTO `Vinyls` (`albumName`, `artistName`, `genre`, `price`, `quantityAvai
     VALUES (:albumName, :artistName, :genre, :price, :quantityAvailable);
 
 -- add a new coupon
-INSERT INTO `Coupons` VALUES (:couponID, :percentDiscount, :expirationDate);
+INSERT IGNORE INTO `Coupons` VALUES (:couponID, :percentDiscount, :expirationDate);
 
 -- add a new order
 INSERT INTO `Orders` (`orderDate`,`customerID`, `couponID`, `orderStatus`)
     VALUES (:orderDate, :customerID, :couponID, :orderStatus);
 
 -- add a new OrderProduct
-INSERT INTO `OrderProducts` VALUES (:orderID, :productID, :quantity);
+INSERT IGNORE INTO `OrderProducts` VALUES (:orderID, :productID, :quantity);
 
 -- filter orders by user's input
 SELECT * FROM `Orders` WHERE `customerID` = :customerID_input;
