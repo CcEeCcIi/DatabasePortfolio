@@ -3,6 +3,7 @@ import os
 from flask.helpers import flash, url_for
 from werkzeug.utils import redirect
 import database.db_connector as db
+import MySQLdb
 
 
 # Configuration
@@ -10,6 +11,17 @@ app = Flask(__name__)
 
 # Connect to database when server is started
 db_connection = db.connect_to_database()
+
+# Reconnect to database to avoid database connection break
+def execute_query(db_connection = None, query = None, query_params = ()):
+    try:
+        return db.execute_query(db_connection, query, query_params)
+    except MySQLdb.OperationalError as error:
+        if error.args[0] == 2006:
+            db_connection = db.connect_to_database()
+            return db.execute_query(db_connection, query, query_params)
+        else:
+            raise
 
 # Routes 
 @app.route('/')
@@ -24,7 +36,7 @@ def customers():
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
         query = "SELECT * FROM `Customers`;"
-        customer_info = db.execute_query(db_connection, query).fetchall()
+        customer_info = execute_query(db_connection, query).fetchall()
 
         return render_template("customers.html", customer_info=customer_info)
 
@@ -48,7 +60,7 @@ def customers():
             data = (first_name, last_name, street_address, city, state, zip_code, phone, email)
 
         # Execute query to insert data
-        db.execute_query(db_connection, query, data)
+        execute_query(db_connection, query, data)
 
         # Redirect to same webpage after form submission
         return redirect(url_for('customers'))
@@ -61,7 +73,7 @@ def vinyls():
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
         query = "SELECT * FROM `Vinyls`;"
-        vinyl_info = db.execute_query(db_connection, query).fetchall()
+        vinyl_info = execute_query(db_connection, query).fetchall()
         return render_template("vinyls.html", vinyl_info=vinyl_info)
 
     # Handle POST requests by inserting form data from front end
@@ -76,7 +88,7 @@ def vinyls():
         data = (album_name, artist_name, genre, price, quantity_available)
         
         # Execute query to insert data
-        db.execute_query(db_connection, query, data)
+        execute_query(db_connection, query, data)
         
         # Redirect to same webpage after form submission
         return redirect(url_for('vinyls'))
@@ -101,7 +113,7 @@ def orders():
         elif request.args.get('order_to_delete') != None:
             order_to_delete = request.args['order_to_delete']
             query_delete_order = "DELETE FROM `Orders` WHERE `orderID` = " + order_to_delete + ";"
-            db.execute_query(db_connection, query_delete_order)
+            execute_query(db_connection, query_delete_order)
         
         # If 'Clear Filter' option is chosen, refresh page with no filters
         elif request.args.get('customerID') == "":
@@ -112,19 +124,19 @@ def orders():
             customer_filter = request.args['customerID']
             query_orders = "SELECT * FROM `Orders` WHERE customerID = " + customer_filter + ";"
             
-        order_info = db.execute_query(db_connection, query_orders).fetchall()
+        order_info = execute_query(db_connection, query_orders).fetchall()
 
         # Fetch all customerID's for drop down menu
         query_customers = "SELECT `customerID`, `firstName`, `lastName` FROM `Customers`;"
-        customer_names = db.execute_query(db_connection, query_customers)
+        customer_names = execute_query(db_connection, query_customers)
 
         # Fetch all couponID's for drop down menu
         query_coupons = "SELECT `couponID` FROM `Coupons`;"
-        coupon_info = db.execute_query(db_connection, query_coupons)
+        coupon_info = execute_query(db_connection, query_coupons)
         
         # Fetch all orderID's for drop down menu
         query_orderID = "SELECT `orderID` FROM `Orders` ORDER BY `orderID`;"
-        orderID_info = db.execute_query(db_connection, query_orderID)
+        orderID_info = execute_query(db_connection, query_orderID)
         return render_template("orders.html", order_info=order_info, customer_names=customer_names, coupon_info=coupon_info, orderID_info=orderID_info, filter=customer_filter)
     
     if request.method == 'POST':
@@ -145,7 +157,7 @@ def orders():
                 data = (order_date, customer_id, coupon_id, order_status)
             
             # Execute query to insert data
-            db.execute_query(db_connection, query, data)
+            execute_query(db_connection, query, data)
         
         # If update an order
         if request.form.get('order_to_update') != None:
@@ -162,7 +174,7 @@ def orders():
                 data = (orderStatus_to_update, coupon_to_update, order_to_update)
             
             # Execute query to update data
-            db.execute_query(db_connection, query, data)
+            execute_query(db_connection, query, data)
 
         # Redirect to same webpage after form submission
         return redirect(url_for('orders'))
@@ -175,7 +187,7 @@ def coupons():
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
         query = "SELECT * FROM `Coupons`;"
-        coupon_info = db.execute_query(db_connection, query).fetchall()
+        coupon_info = execute_query(db_connection, query).fetchall()
         return render_template("coupons.html", coupon_info=coupon_info)
 
     # Handle POST requests by inserting form data from front end
@@ -188,7 +200,7 @@ def coupons():
         data = (couponID, percentDiscount, expirationDate)
         
         # Execute query to insert data
-        db.execute_query(db_connection, query, data)
+        execute_query(db_connection, query, data)
         
         # Redirect to same webpage after form submission
         return redirect(url_for('coupons'))
@@ -201,15 +213,15 @@ def order_products():
     # Handle GET requests by fetching all Customers data
     if request.method == 'GET':
         query = "SELECT * FROM `OrderProducts`;"
-        order_products_info = db.execute_query(db_connection, query).fetchall()
+        order_products_info = execute_query(db_connection, query).fetchall()
         
         # Fetch all orderID's for drop down menu
         query_orders = "SELECT `orderID` FROM `Orders` ORDER BY `orderID`;"
-        orders_info = db.execute_query(db_connection, query_orders)
+        orders_info = execute_query(db_connection, query_orders)
         
         # Fetch all productID's for drop down menu
         query_products = "SELECT `productID`, `albumName` FROM `Vinyls` ORDER BY `productID`;"
-        products_info = db.execute_query(db_connection, query_products)
+        products_info = execute_query(db_connection, query_products)
         return render_template("order-products.html", \
                                 order_products_info=order_products_info, \
                                 orders_info=orders_info, \
@@ -225,7 +237,7 @@ def order_products():
         data = (orderID, productID, quantity)
         
         # Execute query to insert data
-        db.execute_query(db_connection, query, data)
+        execute_query(db_connection, query, data)
 
         # Redirect to same webpage after form submission
         return redirect(url_for('order_products'))
@@ -243,7 +255,7 @@ def order_products_delete():
     # Execute delete query using parameters
     query = "DELETE FROM `OrderProducts` WHERE `orderID` = %s AND `productID` = %s;"
     data = (order_id, product_id)
-    db.execute_query(db_connection, query, data)    
+    execute_query(db_connection, query, data)    
 
     # Redirect to same webpage
     return redirect(url_for('order_products'))
