@@ -58,7 +58,7 @@ UNLOCK TABLES;
 /* Define the Coupons table */
 CREATE TABLE `Coupons` (
     `couponID` VARCHAR(255) NOT NULL,
-    `percentDiscount` DECIMAL NOT NULL,
+    `percentDiscount` INT NOT NULL,
     `expirationDate` DATE NOT NULL,
     PRIMARY KEY (`couponID`)
 ) ENGINE=InnoDB;
